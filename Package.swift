@@ -12,5 +12,12 @@ let package = Package(
                 .linkedFramework("EventKit"),
             ]
         ),
+        .testTarget(
+            name: "cal_exportTests",
+            dependencies: ["cal_export"],
+            linkerSettings: [
+                .linkedFramework("EventKit"),
+            ]
+        ),
     ]
 )
