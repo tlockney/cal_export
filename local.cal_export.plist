@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <key>Label</key>
+    <string>local.cal_export</string>
+
+    <!--
+      Use the compiled binary, not `swift run`.
+      The TCC Calendar permission attaches to the binary path — don't move it after granting.
+
+      To install:
+        make install
+
+      To grant Calendar access before first launchd run:
+        Run it once manually: /usr/local/bin/cal_export --days 1
+        macOS will prompt. After approval, launchd runs will inherit the permission.
+    -->
+    <key>ProgramArguments</key>
+    <array>
+        <string>/usr/local/bin/cal_export</string>
+        <string>--days</string>
+        <string>14</string>
+        <string>--out</string>
+        <string>/usr/local/var/cal_agenda.json</string>
+    </array>
+
+    <!-- Run every 30 minutes -->
+    <key>StartInterval</key>
+    <integer>1800</integer>
+
+    <!--
+    Or use specific times:
+    <key>StartCalendarInterval</key>
+    <array>
+        <dict><key>Hour</key><integer>6</integer><key>Minute</key><integer>0</integer></dict>
+        <dict><key>Hour</key><integer>12</integer><key>Minute</key><integer>0</integer></dict>
+    </array>
+    -->
+
+    <key>StandardOutPath</key>
+    <string>/tmp/cal_export.log</string>
+
+    <key>StandardErrorPath</key>
+    <string>/tmp/cal_export.err</string>
+</dict>
+</plist>
