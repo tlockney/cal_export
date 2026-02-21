@@ -17,7 +17,7 @@ install: release
 uninstall:
 	rm -f $(PREFIX)/bin/cal_export
 
-install-agent:
+install-agent: install
 	mkdir -p $(PREFIX)/var
 	sed 's|/Users/YOURUSER|$(HOME)|g' local.cal_export.plist > $(AGENT_PLIST)
 	launchctl unload $(AGENT_PLIST) 2>/dev/null || true
