@@ -9,20 +9,22 @@
       Use the compiled binary, not `swift run`.
       The TCC Calendar permission attaches to the binary path — don't move it after granting.
 
+      Update paths below to match your $HOME — launchd does not expand ~ or $HOME.
+
       To install:
         make install
 
       To grant Calendar access before first launchd run:
-        Run it once manually: /usr/local/bin/cal_export --days 1
+        Run it once manually: ~/.local/bin/cal_export --days 1
         macOS will prompt. After approval, launchd runs will inherit the permission.
     -->
     <key>ProgramArguments</key>
     <array>
-        <string>/usr/local/bin/cal_export</string>
+        <string>/Users/YOURUSER/.local/bin/cal_export</string>
         <string>--days</string>
         <string>14</string>
         <string>--out</string>
-        <string>/usr/local/var/cal_agenda.json</string>
+        <string>/Users/YOURUSER/.local/var/cal_agenda.json</string>
     </array>
 
     <!-- Run every 30 minutes -->

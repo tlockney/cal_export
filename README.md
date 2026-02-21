@@ -104,14 +104,18 @@ make build
 make install
 ```
 
-This builds a release binary and copies it to `/usr/local/bin/cal_export`.
+This builds a release binary and copies it to `~/.local/bin/cal_export`. To install elsewhere:
+
+```bash
+make install PREFIX=/usr/local
+```
 
 ### 3. Grant Calendar access
 
 Run once manually to trigger the TCC permission prompt:
 
 ```bash
-/usr/local/bin/cal_export --days 1
+~/.local/bin/cal_export --days 1
 ```
 
 Approve in the dialog. Verify it's listed under System Settings → Privacy & Security → Calendars.
@@ -119,16 +123,18 @@ Approve in the dialog. Verify it's listed under System Settings → Privacy & Se
 ### 4. Verify output
 
 ```bash
-/usr/local/bin/cal_export --days 7 | jq .
+~/.local/bin/cal_export --days 7 | jq .
 ```
 
 To list all available calendar names:
 
 ```bash
-/usr/local/bin/cal_export --list-calendars
+~/.local/bin/cal_export --list-calendars
 ```
 
 ### 5. Install launchd agent
+
+Edit `local.cal_export.plist` first — replace `YOURUSER` with your username in the paths. Then:
 
 ```bash
 cp local.cal_export.plist ~/Library/LaunchAgents/
@@ -205,15 +211,17 @@ For launchd, add `--calendars` to `ProgramArguments` in the plist:
 ```xml
 <key>ProgramArguments</key>
 <array>
-    <string>/usr/local/bin/cal_export</string>
+    <string>/Users/YOURUSER/.local/bin/cal_export</string>
     <string>--days</string>
     <string>14</string>
     <string>--calendars</string>
     <string>Work,Personal,Family</string>
     <string>--out</string>
-    <string>/usr/local/var/cal_agenda.json</string>
+    <string>/Users/YOURUSER/.local/var/cal_agenda.json</string>
 </array>
 ```
+
+Note: launchd does not expand `~` or `$HOME` — use full absolute paths in the plist.
 
 If a `--calendars` argument names a calendar that doesn't exist, the program will exit with an error and print available calendar names to stderr — useful for debugging name mismatches (e.g. "Google Calendar" vs the actual calendar title).
 

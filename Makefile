@@ -1,3 +1,5 @@
+PREFIX ?= $(HOME)/.local
+
 .PHONY: build release install uninstall clean run
 
 build:
@@ -7,10 +9,11 @@ release:
 	swift build -c release
 
 install: release
-	cp .build/release/cal_export /usr/local/bin/cal_export
+	mkdir -p $(PREFIX)/bin
+	cp .build/release/cal_export $(PREFIX)/bin/cal_export
 
 uninstall:
-	rm -f /usr/local/bin/cal_export
+	rm -f $(PREFIX)/bin/cal_export
 
 clean:
 	swift package clean
