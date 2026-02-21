@@ -134,12 +134,11 @@ To list all available calendar names:
 
 ### 5. Install launchd agent
 
-Edit `local.cal_export.plist` first — replace `YOURUSER` with your username in the paths. Then:
-
 ```bash
-cp local.cal_export.plist ~/Library/LaunchAgents/
-launchctl load ~/Library/LaunchAgents/local.cal_export.plist
+make install-agent
 ```
+
+This substitutes your `$HOME` into the plist paths, copies it to `~/Library/LaunchAgents/`, and loads it. Re-running will reload after changes.
 
 To run immediately without waiting for the interval:
 
@@ -192,8 +191,7 @@ The plist is configured for every 30 minutes (`StartInterval: 1800`). To change 
 After any plist change:
 
 ```bash
-launchctl unload ~/Library/LaunchAgents/local.cal_export.plist
-launchctl load ~/Library/LaunchAgents/local.cal_export.plist
+make install-agent
 ```
 
 ---
