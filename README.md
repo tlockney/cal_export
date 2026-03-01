@@ -90,7 +90,25 @@ The permission persists across runs as long as the binary is not moved or replac
 
 ## Setup
 
-### 1. Build
+### Quick Install
+
+Install the latest release and set up the launchd agent with a single command:
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/tlockney/cal_export/main/install.sh | sh
+```
+
+This installs the binary to `~/.local/bin/cal_export`, configures the launch agent, and loads it. After installing, grant Calendar access by running once manually:
+
+```bash
+~/.local/bin/cal_export --days 1
+```
+
+Approve in the dialog. The launch agent will then run automatically on its schedule.
+
+### Install from Source
+
+#### 1. Build
 
 ```bash
 swift build
@@ -98,7 +116,7 @@ swift build
 make build
 ```
 
-### 2. Install
+#### 2. Install
 
 ```bash
 make install
@@ -110,7 +128,7 @@ This builds a release binary and copies it to `~/.local/bin/cal_export`. To inst
 make install PREFIX=/usr/local
 ```
 
-### 3. Grant Calendar access
+#### 3. Grant Calendar access
 
 Run once manually to trigger the TCC permission prompt:
 
@@ -120,7 +138,7 @@ Run once manually to trigger the TCC permission prompt:
 
 Approve in the dialog. Verify it's listed under System Settings → Privacy & Security → Calendars.
 
-### 4. Verify output
+#### 4. Verify output
 
 ```bash
 ~/.local/bin/cal_export --days 7 | jq .
@@ -132,7 +150,7 @@ To list all available calendar names:
 ~/.local/bin/cal_export --list-calendars
 ```
 
-### 5. Install launchd agent
+#### 5. Install launchd agent
 
 ```bash
 make install-agent
