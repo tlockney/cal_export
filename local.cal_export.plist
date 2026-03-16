@@ -27,9 +27,9 @@
         <string>/Users/YOURUSER/.local/var/cal_agenda.json</string>
     </array>
 
-    <!-- Run every 30 minutes -->
+    <!-- Run every 5 minutes -->
     <key>StartInterval</key>
-    <integer>1800</integer>
+    <integer>300</integer>
 
     <!--
     Or use specific times:
