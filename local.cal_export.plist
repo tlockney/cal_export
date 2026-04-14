@@ -23,6 +23,8 @@
         <string>/Users/YOURUSER/.local/bin/cal_export</string>
         <string>--days</string>
         <string>14</string>
+        <string>--past-days</string>
+        <string>7</string>
         <string>--out</string>
         <string>/Users/YOURUSER/.local/var/cal_agenda.json</string>
     </array>
