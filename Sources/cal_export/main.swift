@@ -70,8 +70,9 @@ let usageText = """
 Usage: cal_export [OPTIONS]
 
 Options:
-  --days N              Fetch N days from start date (default: 7)
-  --from YYYY-MM-DD     Start date (default: today)
+  --days N              Fetch N days forward from start date (default: 7)
+  --past-days N         Include N days before start date (default: 7)
+  --from YYYY-MM-DD     Start date (default: today minus --past-days)
   --to YYYY-MM-DD       End date (overrides --days)
   --calendars CAL,...   Comma-separated calendar names (default: all)
   --out FILE            Write JSON to FILE instead of stdout (supports ~)
@@ -94,6 +95,7 @@ func parseArgs() -> Config {
   var rawFrom: Date?
   var rawTo: Date?
   var days = 7
+  var pastDays = 7
   var calendars: [String] = []
   var outFile: String?
   var listCalendars = false
@@ -120,6 +122,17 @@ func parseArgs() -> Config {
         exit(1)
       }
       days = n
+    case "--past-days":
+      i += 1
+      guard i < args.count else {
+        fputs("Error: --past-days requires a value\n", stderr)
+        exit(1)
+      }
+      guard let n = Int(args[i]), n >= 0 else {
+        fputs("Error: --past-days requires a non-negative integer, got '\(args[i])'\n", stderr)
+        exit(1)
+      }
+      pastDays = n
     case "--from":
       i += 1
       guard i < args.count else {
@@ -163,8 +176,9 @@ func parseArgs() -> Config {
     i += 1
   }
 
-  let dateFrom = rawFrom ?? today
-  let dateTo = rawTo ?? cal.date(byAdding: .day, value: days, to: dateFrom)!
+  let dateFrom = rawFrom ?? cal.date(byAdding: .day, value: -pastDays, to: today)!
+  let defaultEndAnchor = rawFrom ?? today
+  let dateTo = rawTo ?? cal.date(byAdding: .day, value: days, to: defaultEndAnchor)!
 
   return Config(
     dateFrom: dateFrom,
